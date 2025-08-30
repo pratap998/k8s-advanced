@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: redis-pdb
+  namespace: default
+spec:
+  minAvailable: 2   # Always keep at least 2 Redis pods available
+  selector:
+    matchLabels:
+      app: redis
