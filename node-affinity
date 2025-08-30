@@ -1,0 +1,2 @@
+kubectl label nodes aks-agentpool-77895456-vmss000005 type=highcpu
+kubectl label nodes aks-agentpool-77895456-vmss000006 type=standard
