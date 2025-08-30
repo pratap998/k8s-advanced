@@ -1,0 +1,117 @@
+Advanced Kubernetes Hands-On Roadmap
+🔹 Step 1 – Advanced Workloads
+1.	DaemonSets
+o	Deploy a logging agent (Fluentd/Node Exporter) using a DaemonSet.
+o	Verify it runs on every node.
+2.	Jobs & CronJobs
+o	Create a Job that runs a batch script (echo Hello + sleep).
+o	Create a CronJob that runs every 2 minutes and writes logs to a PVC.
+3.	StatefulSets
+o	Deploy a Redis cluster with StatefulSets + Headless Service.
+o	Observe pod ordering and persistent volume claim behavior.
+4.	Pod Disruption Budgets
+o	Define a PDB that ensures at least 1 pod is always running during drain.
+________________________________________
+🔹 Step 2 – Scheduling & Node Placement
+1.	Taints & Tolerations
+o	Taint one node as dedicated=cache:NoSchedule.
+o	Run only Redis pods on that node using tolerations.
+2.	Node Affinity / Anti-Affinity
+o	Ensure two Nginx pods do not run on the same node.
+3.	Topology Spread Constraints
+o	Deploy 6 pods across 3 nodes, spread evenly.
+4.	Custom Scheduler
+o	Install a second scheduler and assign specific pods to it.
+________________________________________
+🔹 Step 3 – Networking Deep Dive
+1.	Headless Service
+o	Deploy MySQL with StatefulSet + Headless Service.
+o	Verify DNS resolves to individual pod IPs.
+2.	Network Policies
+o	Block pod-to-pod communication except for allowed namespaces.
+3.	Ingress Controllers
+o	Install NGINX Ingress Controller.
+o	Route /app1 → Nginx pod, /app2 → Apache pod.
+4.	Service Mesh (Istio/Linkerd)
+o	Install Istio.
+o	Enable traffic splitting: 90% → v1, 10% → v2.
+________________________________________
+🔹 Step 4 – Storage
+1.	Dynamic Provisioning
+o	Create a StorageClass (EBS or Azure Disk).
+o	Deploy a PVC + Pod that mounts it.
+2.	Volume Snapshots
+o	Take a snapshot of a PVC, clone it into another PVC.
+3.	Stateful Storage
+o	Deploy a PostgreSQL StatefulSet with persistent volumes.
+________________________________________
+🔹 Step 5 – Security
+1.	RBAC
+o	Create a role that can only get, list pods in one namespace.
+o	Bind it to a developer user.
+2.	Pod Security Admission
+o	Enforce a namespace where only non-root containers run.
+3.	Secrets
+o	Use Kubernetes Secrets for DB passwords.
+o	Integrate SealedSecrets or External Secrets Operator.
+4.	Admission Controllers
+o	Install Kyverno/OPA Gatekeeper → enforce “no container runs as root”.
+________________________________________
+🔹 Step 6 – Scaling & Performance
+1.	HPA
+o	Create a Deployment with Nginx.
+o	Use kubectl run --generator=run-pod/v1 + ab (Apache Bench) to stress test.
+o	Watch HPA scale pods.
+2.	VPA
+o	Deploy a pod with low CPU request.
+o	Enable VPA to auto-adjust resources.
+3.	Cluster Autoscaler
+o	On cloud (EKS/AKS/GKE), configure autoscaler to add/remove nodes.
+4.	Resource Quotas
+o	Apply namespace-level quotas for dev/test teams.
+________________________________________
+🔹 Step 7 – Monitoring & Logging
+1.	Prometheus + Grafana
+o	Install via Helm.
+o	Scrape K8s metrics + visualize in Grafana.
+2.	EFK Stack
+o	Deploy Elasticsearch + Fluentd + Kibana.
+o	Verify pod logs are collected.
+3.	Tracing
+o	Add Jaeger to a sample microservice.
+________________________________________
+🔹 Step 8 – Upgrades & Reliability
+1.	Rolling Updates
+o	Deploy a sample app with image: v1.
+o	Update to v2 with maxUnavailable=0, maxSurge=1.
+2.	Blue-Green Deployment
+o	Deploy v1 on Service A, v2 on Service B.
+o	Switch traffic using Ingress.
+3.	Canary Release
+o	Route 10% traffic to v2 using Istio.
+4.	Cluster Upgrade
+o	Simulate control-plane/node upgrade on Minikube.
+________________________________________
+🔹 Step 9 – Configuration & GitOps
+1.	Helm
+o	Package an app into a Helm chart.
+o	Version and deploy it.
+2.	Kustomize
+o	Apply overlays (dev, test, prod) to same base YAML.
+3.	Operators
+o	Deploy a MySQL Operator to manage DB lifecycle.
+4.	GitOps (ArgoCD)
+o	Sync app from Git repo → cluster automatically.
+________________________________________
+🔹 Step 10 – Debugging & Chaos Engineering
+1.	kubectl debug
+o	Attach an ephemeral container for troubleshooting.
+2.	Chaos Engineering
+o	Install LitmusChaos.
+o	Kill random pods/nodes → check recovery.
+3.	K9s / Lens
+o	Manage/debug cluster with advanced tools.
+________________________________________
+👉 If you follow this roadmap, by the end you’ll be at production-grade Kubernetes level 💯
+Would you like me to prepare this roadmap as a structured PDF/Workbook with YAML examples for each step (so you can directly try them in your cluster)?
+
