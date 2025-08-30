@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nginx-pdb
+  namespace: default
+spec:
+  minAvailable: 2   # at least 2 must always be available
+  selector:
+    matchLabels:
+      app: nginx
