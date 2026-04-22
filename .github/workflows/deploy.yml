@@ -1,29 +1,19 @@
-name: CI Pipeline
+name: Deploy to Tomcat
 
 on:
-  workflow_dispatch:   # ✅ enables manual trigger
+  push:
+    branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Install Dependencies
-        run: echo "Installing dependencies..."
-
-      - name: Build
-        run: echo "Building application..."
-
-      - name: Test
-        run: echo "Running tests..."
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
 
     steps:
-      - name: Deploy
-        run: echo "Running deployment..."
+      - uses: actions/checkout@v4
+
+      - name: Build WAR
+        run: mvn clean package
+
+      - name: Deploy to Server
+        run: |
+          scp target/app.war user@server:/opt/tomcat/webapps/
